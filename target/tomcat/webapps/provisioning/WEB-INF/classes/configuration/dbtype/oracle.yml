@@ -1,0 +1,31 @@
+## Provisioning specific database configuration
+provisioning:
+  database:
+    connectionString: jdbc:oracle:thin:@${provisioning.database.host}:${provisioning.database.port}:${provisioning.database.sid}
+    username: ${provisioning.database.name}
+    password: b4ckb4s3
+    port: 1521
+    sid: XE
+    validationQuery: select 1 from dual
+
+## Database configuration
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+  datasource:
+    url: ${provisioning.database.connectionString}
+    username: ${provisioning.database.username}
+    password: ${provisioning.database.password}
+    tomcat:
+      minIdle: 1
+      maxActive: ${provisioning.database.maxPoolSize}
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 3600000
+      validationQuery: ${provisioning.database.validationQuery}
+    hikari:
+      poolName: ${spring.application.name}
+      minimumIdle: 1
+      maximumPoolSize: ${provisioning.database.maxPoolSize}
+      connectionTestQuery: ${provisioning.database.validationQuery}

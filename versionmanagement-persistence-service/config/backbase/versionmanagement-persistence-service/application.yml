@@ -1,0 +1,35 @@
+#
+# Configuration file only for development
+#
+
+spring:
+  profiles:
+    active: ${MOBILE_ACTIVE_PROFILE:live, mysql}
+
+# Logging
+logging:
+  level:
+    com.backbase: INFO
+    org.springframework: INFO
+    # Temporary: Ignore Eureka Client error messages (workaround) - https://stash.backbase.com/projects/INFRA/repos/api-registry-client/browse
+    com.netflix.discovery: OFF
+
+---
+### Live profile
+spring:
+  profiles: live
+
+---
+###Mysql profile
+spring:
+  profiles: mysql
+  datasource:
+    platform: mysql
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mobile_e?useSSL=false
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: none

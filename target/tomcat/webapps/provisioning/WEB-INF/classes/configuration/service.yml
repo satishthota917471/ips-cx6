@@ -1,0 +1,169 @@
+#
+# ENVIRONMENT DEFAULT VALUES
+#
+BACKBASE_ENVROLE: editorial
+BACKBASE_DBTYPE: mysql
+
+#
+# Configure zero configuration
+#
+configuration:
+  property:
+    envrole: provisioning.envrole
+    dbtype: provisioning.dbtype
+  jndi:
+    base_context: backbase/${spring.application.name}
+  envrole:
+    editorial: configuration/envrole/editorial.yml
+    staging: configuration/envrole/staging.yml
+    live: configuration/envrole/live.yml
+  dbtype:
+    mssql: configuration/dbtype/mssql.yml
+    mysql: configuration/dbtype/mysql.yml
+    oracle: configuration/dbtype/oracle.yml
+
+#
+# PROVISIONING DEFAULT VALUES
+#
+provisioning:
+  appname: provisioning
+  envrole: ${BACKBASE_ENVROLE}
+  dbtype: ${BACKBASE_DBTYPE}
+  database:
+    host: database
+    migration:
+      enabled: ${LIQUIBASE_ENABLED:false}
+  registry:
+    host: registry
+  queue:
+    provisionPackage: Backbase.ProvisionPackage
+    portalProvisionItem: Backbase.portal.ProvisionItem
+    csProvisionItem: Backbase.cs.ProvisionItem
+    campaignProvisionItem: Backbase.campaign.ProvisionItem
+    provisionItemReply: Backbase.ProvisionItemReply
+    createPackage: Backbase.CreatePackage
+    csCreatePackage: Backbase.cs.CreatePackage
+    campaignCreatePackage: Backbase.campaign.CreatePackage
+    updatePackageReply: Backbase.UpdatePackageReply
+    portalExportItem: Backbase.portal.ExportItem
+    csExportItem: Backbase.cs.ExportItem
+    campaignExportItem: Backbase.campaign.ExportItem
+    exportItemReply: Backbase.ExportItemReply
+  filesystem:
+    temp-dir: ${java.io.tmpdir}
+  generating.max-destinations-size: 20
+
+# Netflix Eureka Client configuration
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${provisioning.registry.host}:8080/registry/eureka/
+  instance:
+    appname: ${spring.application.name}
+    nonSecurePort: 8080
+    preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 30
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    metadataMap:
+      role: ${provisioning.envrole}
+      public: true
+
+# Configure Internal JWT handler
+sso:
+  jwt:
+    internal:
+      signature:
+        key:
+          type: ENV
+          value: SIG_SECRET_KEY
+
+spring:
+  application:
+    name: ${provisioning.appname}
+  activemq:
+    user: admin
+    password: admin
+    broker-url: tcp://message-broker-${BACKBASE_ENVROLE}:51616
+  jpa:
+    hibernate:
+      naming-strategy: org.hibernate.cfg.DefaultNamingStrategy
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
+  jmx:
+    default-domain: ${spring.application.name}
+  metrics:
+    servo:
+      enabled: false
+  cloud:
+    stream:
+      default-binder: activemq
+      bindings:
+        provisionPackageInput:
+          destination: ${provisioning.queue.provisionPackage}
+          group: provisioning
+        provisionPackageOutput:
+          destination: ${provisioning.queue.provisionPackage}
+        updatePackageReply:
+          destination: ${provisioning.queue.updatePackageReply}
+          group: provisioning
+        provisionItemReply:
+          destination: ${provisioning.queue.provisionItemReply}
+          group: provisioning
+        exportItemReply:
+          destination: ${provisioning.queue.exportItemReply}
+          group: provisioning
+        portalProvisionItem:
+          destination: ${provisioning.queue.portalProvisionItem}
+        portalExportItem:
+          destination: ${provisioning.queue.portalExportItem}
+        portalCreatePackage:
+          destination: ${provisioning.queue.createPackage}
+        csProvisionItem:
+          destination: ${provisioning.queue.csProvisionItem}
+        csExportItem:
+          destination: ${provisioning.queue.csExportItem}
+        csCreatePackage:
+          destination: ${provisioning.queue.csCreatePackage}
+        campaignProvisionItem:
+          destination: ${provisioning.queue.campaignProvisionItem}
+        campaignExportItem:
+          destination: ${provisioning.queue.campaignExportItem}
+        campaignCreatePackage:
+          destination: ${provisioning.queue.campaignCreatePackage}
+    discovery:
+      client:
+        health-indicator:
+          include-description: false
+    inetutils:
+      ignoredInterfaces: docker0,veth.*
+    config:
+      fail-fast: false
+  liquibase:
+    enabled: ${provisioning.database.migration.enabled}
+    change-log: classpath:/liquibase/changelog-master.xml
+  sleuth:
+    enabled: false
+  main:
+    allow-bean-definition-overriding: true
+
+liquibase:
+  enabled: ${spring.liquibase.enabled}
+  change-log: ${spring.liquibase.change-log}
+
+management:
+  endpoints:
+    jmx:
+      domain: ${spring.application.name}
+    web:
+      base-path: /
+
+# CSRF checks disabled until docs and scripts updated
+buildingblocks:
+  security:
+    csrf:
+      enabled: true
+
+# Availability of the deprecated endpoints
+deprecations: true

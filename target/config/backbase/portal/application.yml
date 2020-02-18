@@ -1,0 +1,17 @@
+#
+# Configuration file only for development
+#
+
+portal:
+  resourcelocation:
+    profile: filesystem
+    path: ${BACKBASE_HOME}/portal/contextroot
+  security:
+    cookies:
+      secure: false
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/portal_e?useSSL=false
+    username: root
+    password: root

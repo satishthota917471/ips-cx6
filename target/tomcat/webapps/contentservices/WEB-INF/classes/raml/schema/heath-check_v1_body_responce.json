@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Contentservices health check",
+    "type": "object",
+    "properties": {
+        "status": {
+            "title": "Contentservices health status",
+            "type": "string"
+        },
+        "database": {
+            "title": "Contentservices Database health check",
+            "type": "object",
+            "properties": {
+                "status": {
+                    "title": "Contentservices Database health status",
+                    "type": "string"
+                },
+                "database": {
+                    "title": "Database type",
+                    "type": "string"
+                },
+                "hello": {
+                    "title": "Result of the database test query",
+                    "type": ["integer", "string"]
+                }
+            }
+        }
+    },
+    "required": [
+        "status"
+    ]
+}

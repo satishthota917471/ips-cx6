@@ -1,0 +1,12 @@
+[
+  {
+    "repositoryId": "3fb006de-d333-4ab2-8a3e-6f5f3c2fb5d5",
+    "id": "d0e346eb-4cd4-4a8e-b545-9b9f2001cf7b",
+    "path": "/new/path/where/to/moveFolder"
+  },
+  {
+    "repositoryId": "1dde15fc-31da-4961-9fb9-d90855c3f251",
+    "id": "d0e346eb-4cd4-4a8e-b545-9b9f2001cf7b",
+    "path": "/new/path/folderName"
+  }
+]

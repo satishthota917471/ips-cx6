@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Content Api schema.",
+  "description": "Content Api provides querying and relationship resolving features as a replacement for CMIS",
+  "properties": {
+    "searchTerm": {
+      "type": "string",
+      "title": "searchTerm schema.",
+      "description": "Free text string to be searched",
+      "minLength": 1
+    },
+    "paths": {
+      "type": "array",
+      "title": "Paths schema.",
+      "description": "List of paths of content to be searched. Folders can be omitted by adding '!' as prefix. For Ex: paths: ['/', '!/Generated content'] will search on '/ ' except '!/Generated content'",
+      "items": {
+        "type": "string"
+      }
+    },
+    "repositories": {
+      "type": "array",
+      "title": "Repositories schema.",
+      "description": "List of content repositories to limit the search to",
+      "items": {
+        "type": "string"
+      }
+    },
+    "properties": {
+      "type": "object",
+      "title": "Properties schema.",
+      "description": "Map of key/value pairs on which a properties should be filtered",
+      "items": {
+        "type": "string"
+      },
+      "minProperties": 1
+    }
+  },
+  "anyOf": [
+    {
+      "required":["properties"]
+    }, {
+      "required":["searchTerm"]
+    }
+  ]
+}

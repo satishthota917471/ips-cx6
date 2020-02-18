@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "title": "Root schema.",
+  "description": "List of Documents. Result query from the content api",
+  "items": {
+    "type": "object",
+    "title": "A Document.",
+    "description": "CMIS Document",
+    "properties": {
+      "path": {
+        "type": "string",
+        "title": "Path schema.",
+        "description": "Content Path."
+      },
+      "id": {
+        "type": "string",
+        "title": "Id schema.",
+        "description": "Content unique id."
+      },
+      "repositoryId": {
+        "type": "string",
+        "title": "RepositoryId schema.",
+        "description": "Repository which the socument belongs to."
+      },
+      "type": {
+        "type": "string",
+        "title": "Type schema.",
+        "description": "The cmis type of this document"
+      },
+      "creationDate": {
+        "type": "string",
+        "title": "Creation timestamp.",
+        "description": "Date / time of creation, ISO format."
+      },
+      "lastModifiationDate": {
+        "type": "string",
+        "title": "Modification timestamp.",
+        "description": "Date / time of last modification, ISO format."
+      },
+      "properties": {
+        "type": "object",
+        "title": "Properties schema.",
+        "description": "List of cmis properties of this document.",
+        "items": {}
+      }
+    },
+    "renditions": {
+      "type": "array",
+      "title": "Renditions schema.",
+      "description": "All the renditions of this Document.",
+      "items": {
+        "type": "object",
+        "title": "Rendition schema.",
+        "description": "Rendition definition.",
+        "properties": {
+          "streamId": {
+            "type": "string",
+            "title": "StreamId schema.",
+            "description": "The rendition's stream id."
+          },
+          "mimeType": {
+            "type": "string",
+            "title": "MimeType schema.",
+            "description": "The rendition's mimeType."
+          },
+          "length": {
+            "type": "integer",
+            "title": "Length schema.",
+            "description": "The Renditions lenght."
+          },
+          "title": {
+            "type": "string",
+            "title": "Title schema.",
+            "description": "Rendition's title."
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind schema.",
+            "description": "The cmis kind of the rendition."
+          },
+          "height": {
+            "type": "integer",
+            "title": "Height schema.",
+            "description": "Height of the Rendition (Applicable only for images)."
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width schema.",
+            "description": "Width of the Rendition (Applicable only for images)."
+          },
+          "renditionDocumentId": {
+            "type": "string",
+            "title": "RenditionDocumentId schema.",
+            "description": "The rendition Document id."
+          }
+        }
+      }
+    },
+    "children": {
+      "type": "array",
+      "title": "Children schema.",
+      "description": "This document's children list.",
+      "items": {}
+    },
+    "relationships": {
+      "type": "array",
+      "title": "Relationships schema.",
+      "description": "All the relationship to/from this document",
+      "items": {}
+    },
+    "versions": {
+      "type": "array",
+      "title": "Versions schema.",
+      "description": "All versions of this document",
+      "items": {}
+    }
+  }
+}

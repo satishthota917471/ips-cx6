@@ -1,0 +1,14 @@
+{
+    "paths": [
+        "/search/in/this/folder",
+        "!/cant/search/this"
+    ],
+    "properties": {
+        "bb:locale": "pt_BR",
+        "cmis:contentStreamMimeType": "image/jpeg"
+    },
+    "repositories": [
+        "contentRepository"
+    ],
+    "searchTerm": "hello"
+}

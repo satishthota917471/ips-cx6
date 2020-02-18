@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "title": "Content Api schema",
+  "description": "Payload schema to revert documents to a specific versions.",
+  "items": {
+    "type": "object",
+    "title": "Revert version item",
+    "description": "CMIS Document to move",
+    "properties": {
+      "repositoryId": {
+        "type": "string",
+        "description": "Repository ID to revert version of documents from."
+      },
+      "id": {
+        "type": "string",
+        "description": "Document ID to revert."
+      },
+      "version": {
+        "type": "string",
+        "description": "Version label to revert to."
+      }
+    },
+    "required": ["repositoryId", "id", "version"],
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+  version="3.1">
+
+    <!-- Spring JSP tag: Escape the content/value of tag -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>com.backbase.cxs.portal.PortalApplication</param-value>
+    </context-param>
+
+    <!-- Portal Exception Translation Filter -->
+    <filter>
+        <filter-name>fallbackExceptionTranslationFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <!-- Backbase i18n Filter -->
+    <filter>
+        <filter-name>i18nFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <!-- Force the web server to use UTF-8 in requests and responses. WARNING:
+        This filter should be the first to run, otherwise form login with non-latin
+        characters is broken. PSFIVE-476 -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <display-name>springMultipartFilter</display-name>
+        <filter-name>springMultipartFilter</filter-name>
+        <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+    </filter>
+
+    <!-- Spring Security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <!-- Cookie Management Filter will populate cookies into a ThreadLocal and set modified cookies before returning -->
+    <filter>
+        <filter-name>threadLocalFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <!-- Filter for setting the urlFilter -->
+    <filter>
+        <filter-name>urlFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter>
+        <filter-name>currentLinkFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>staticResourceFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <!--ETag default filter-->
+    <filter>
+        <filter-name>etagFilter</filter-name>
+        <filter-class>com.backbase.cxp.portal.filters.ExtendedEtagHeaderFilter</filter-class>
+    </filter>
+
+
+    <filter-mapping>
+        <filter-name>fallbackExceptionTranslationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>springMultipartFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>staticResourceFilter</filter-name>
+        <url-pattern>/static/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>etagFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>threadLocalFilter</filter-name>
+        <servlet-name>Portal Foundation Spring MVC</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>currentLinkFilter</filter-name>
+        <servlet-name>Portal Foundation Spring MVC</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>i18nFilter</filter-name>
+        <servlet-name>Portal Foundation Spring MVC</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>urlFilter</filter-name>
+        <servlet-name>Portal Foundation Spring MVC</servlet-name>
+    </filter-mapping>
+
+    <!-- Creates the Spring Container shared by all Servlets and Filters -->
+    <!--<listener>-->
+        <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+    <!--</listener>-->
+
+    <!-- Needed for targeting module to access current servlet request -->
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <!-- Handles Foundation Spring requests -->
+    <servlet>
+        <servlet-name>Portal Foundation Spring MVC</servlet-name>
+        <servlet-class>com.backbase.portal.foundation.presentation.override.PortalDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextAttribute</param-name>
+            <param-value>org.springframework.web.context.WebApplicationContext.ROOT</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Portal Foundation Spring MVC</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>20</session-timeout>
+    </session-config>
+
+    <mime-mapping>
+        <extension>png</extension>
+        <mime-type>image/png</mime-type>
+    </mime-mapping>
+
+</web-app>

@@ -1,0 +1,168 @@
+[
+  {
+    "path": "/pomodoro.jpg",
+    "id": "4a6d0591-0b44-4fbf-82c1-968eb8c96595",
+    "repositoryId": "009924d5-5b9c-4fe4-bcd8-953e22319772",
+    "type": "bb:image",
+    "creationDate": "2019-02-12T13:54:27Z",
+    "lastModificationDate":"2019-02-12T13:56:52Z",
+    "properties": {
+      "bb:width": 820,
+      "cmis:isImmutable": false,
+      "cmis:versionLabel": "2.0",
+      "cmis:objectTypeId": "bb:image",
+      "cmis:createdBy": "admin",
+      "cmis:creationDate": {
+        "year": 2016,
+        "month": 8,
+        "dayOfMonth": 27,
+        "hourOfDay": 13,
+        "minute": 3,
+        "second": 37
+      },
+      "cmis:isMajorVersion": true,
+      "cmis:contentStreamFileName": "tomato.jpg",
+      "cmis:name": "pomodoro.jpg",
+      "cmis:isLatestVersion": true,
+      "cmis:lastModificationDate": {
+        "year": 2016,
+        "month": 9,
+        "dayOfMonth": 2,
+        "hourOfDay": 12,
+        "minute": 0,
+        "second": 0
+      },
+      "cmis:contentStreamLength": 46698,
+      "cmis:objectId": "4a6d0591-0b44-4fbf-82c1-968eb8c96595",
+      "cmis:path": "/pomodoro.jpg",
+      "bb:height": 573,
+      "cmis:lastModifiedBy": "manager",
+      "cmis:contentStreamMimeType": "application/octet-stream",
+      "cmis:baseTypeId": "cmis:document",
+      "cmis:parentId": "eab19ad2-41d6-4101-a739-c537b8eea875",
+      "cmis:changeToken": "2642db61-04cf-452e-9fb2-98efb583b819",
+      "cmis:isVersionSeriesCheckedOut": false,
+      "cmis:versionSeriesId": "f2e0e77d-d6cb-4db1-ab26-d7d7bd96d451",
+      "cmis:isLatestMajorVersion": true,
+      "bb:title": "Pomodoro"
+    },
+    "relationships": [
+      {
+        "id": "09f93b4d-7c26-4dc4-b2da-9a394a2a4411",
+        "from": "fa9f89e3-f7f9-4814-9a2b-b704a1dffad9",
+        "to": "4a6d0591-0b44-4fbf-82c1-968eb8c96595"
+      }
+    ],
+    "versions": [
+      {
+        "path": "/tomato.jpg",
+        "id": "3fb006de-d333-4ab2-8a3e-6f5f3c2fb5d5",
+        "repositoryId": "009924d5-5b9c-4fe4-bcd8-953e22319772",
+        "type": "bb:image",
+        "creationDate": "2019-02-12T13:54:27Z",
+        "lastModificationDate":"2019-02-12T13:56:52Z",
+        "properties": {
+          "bb:width": 600,
+          "cmis:isImmutable": false,
+          "cmis:versionLabel": "1.0",
+          "cmis:objectTypeId": "bb:image",
+          "cmis:createdBy": "admin",
+          "cmis:creationDate": {
+            "year": 2016,
+            "month": 8,
+            "dayOfMonth": 27,
+            "hourOfDay": 13,
+            "minute": 3,
+            "second": 37
+          },
+          "cmis:isMajorVersion": true,
+          "cmis:contentStreamFileName": "tomato.jpg",
+          "cmis:name": "tomato.jpg",
+          "cmis:isLatestVersion": false,
+          "cmis:lastModificationDate": {
+            "year": 2016,
+            "month": 8,
+            "dayOfMonth": 27,
+            "hourOfDay": 13,
+            "minute": 3,
+            "second": 37
+          },
+          "cmis:contentStreamLength": 27181,
+          "cmis:objectId": "3fb006de-d333-4ab2-8a3e-6f5f3c2fb5d5",
+          "cmis:path": "/tomato.jpg",
+          "bb:height": 300,
+          "cmis:lastModifiedBy": "admin",
+          "cmis:contentStreamMimeType": "application/octet-stream",
+          "cmis:baseTypeId": "cmis:document",
+          "cmis:parentId": "eab19ad2-41d6-4101-a739-c537b8eea875",
+          "cmis:changeToken": "2642db61-04cf-452e-9fb2-98efb583b819",
+          "cmis:isVersionSeriesCheckedOut": false,
+          "cmis:versionSeriesId": "f2e0e77d-d6cb-4db1-ab26-d7d7bd96d451",
+          "cmis:isLatestMajorVersion": false,
+          "bb:title": "Tomato"
+        },
+        "relationships": [
+          {
+            "id": "09f93b4d-7c26-4dc4-b2da-9a394a2a4411",
+            "from": "fa9f89e3-f7f9-4814-9a2b-b704a1dffad9",
+            "to": "4a6d0591-0b44-4fbf-82c1-968eb8c96595"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/a0625bd5-da8e-4aa3-8609-c79b1c650e1e_author",
+    "id": "fa9f89e3-f7f9-4814-9a2b-b704a1dffad9",
+    "content": "{\"name\":\"Mr. Bacon\",\"addresses\":[{\"type\":\"Work\",\"postcode\":\"AB12 34CD\",\"street\":\"Bacon Street\",\"city\":\"Birmingham\"}],\"picture\":\"{\"path\":\"/cd462e55-3335-4a07-b87f-f4f33455e105.jpg\",\"id\":\"4a6d0591-0b44-4fbf-82c1-968eb8c96595\",\"repositoryId\":\"009924d5-5b9c-4fe4-bcd8-953e22319772\",\"type\":\"bb:image\",\"properties\":{\"bb:width\":820,\"cmis:isImmutable\":false,\"cmis:versionLabel\":\"1.0\",\"cmis:objectTypeId\":\"bb:image\",\"cmis:createdBy\":\"admin\",\"cmis:creationDate\":{\"year\":2016,\"month\":8,\"dayOfMonth\":27,\"hourOfDay\":13,\"minute\":3,\"second\":37},\"cmis:isMajorVersion\":true,\"cmis:contentStreamFileName\":\"cd462e55-3335-4a07-b87f-f4f33455e105.jpg\",\"cmis:name\":\"cd462e55-3335-4a07-b87f-f4f33455e105.jpg\",\"cmis:isLatestVersion\":true,\"cmis:lastModificationDate\":{\"year\":2016,\"month\":8,\"dayOfMonth\":27,\"hourOfDay\":13,\"minute\":3,\"second\":37},\"cmis:contentStreamLength\":46698,\"cmis:objectId\":\"4a6d0591-0b44-4fbf-82c1-968eb8c96595\",\"cmis:path\":\"/cd462e55-3335-4a07-b87f-f4f33455e105.jpg\",\"bb:height\":573,\"cmis:lastModifiedBy\":\"admin\",\"cmis:contentStreamMimeType\":\"application/octet-stream\",\"cmis:baseTypeId\":\"cmis:document\",\"cmis:parentId\":\"eab19ad2-41d6-4101-a739-c537b8eea875\",\"cmis:changeToken\":\"2642db61-04cf-452e-9fb2-98efb583b819\",\"cmis:isVersionSeriesCheckedOut\":false,\"cmis:versionSeriesId\":\"f2e0e77d-d6cb-4db1-ab26-d7d7bd96d451\",\"cmis:isLatestMajorVersion\":true,\"bb:title\":\"Saturn\"},\"relationships\":[{\"id\":\"09f93b4d-7c26-4dc4-b2da-9a394a2a4411\",\"from\":\"fa9f89e3-f7f9-4814-9a2b-b704a1dffad9\",\"to\":\"4a6d0591-0b44-4fbf-82c1-968eb8c96595\"}]}\",\"summary\":\"<p>Bacon ipsum dolor amet in ribeye andouille pork loin prosciutto jowl meatloaf chuck corned beef sint do flank ut. Capicola elit fatback, pastrami commodo pork belly cupidatat alcatra sint doner tempor meatball kevin flank. Chuck mollit dolor, labore magna beef tail biltong cupim officia pariatur ribeye reprehenderit nisi spare ribs. Meatloaf in chuck, sirloin velit ad laboris sausage reprehenderit. Voluptate est cupidatat landjaeger kielbasa capicola. Beef nulla pig ground round ipsum leberkas pariatur eu andouille. Corned beef flank culpa, ut meatball swine ipsum pariatur in commodo do shank pancetta frankfurter quis.</p>\\n\"}",
+    "repositoryId": "009924d5-5b9c-4fe4-bcd8-953e22319772",
+    "type": "bb:structuredcontent",
+    "length": 2170,
+    "creationDate": "2019-02-12T13:54:27Z",
+    "lastModificationDate":"2019-02-12T13:56:52Z",
+    "properties": {
+      "cmis:isImmutable": false,
+      "cmis:versionLabel": "1.0",
+      "cmis:objectTypeId": "bb:structuredcontent",
+      "cmis:createdBy": "admin",
+      "cmis:creationDate": {
+        "year": 2016,
+        "month": 8,
+        "dayOfMonth": 27,
+        "hourOfDay": 13,
+        "minute": 3,
+        "second": 37
+      },
+      "cmis:isMajorVersion": true,
+      "cmis:contentStreamFileName": "a0625bd5-da8e-4aa3-8609-c79b1c650e1e_author",
+      "cmis:name": "a0625bd5-da8e-4aa3-8609-c79b1c650e1e_author",
+      "cmis:isLatestVersion": true,
+      "cmis:lastModificationDate": {
+        "year": 2016,
+        "month": 8,
+        "dayOfMonth": 27,
+        "hourOfDay": 13,
+        "minute": 3,
+        "second": 37
+      },
+      "cmis:contentStreamLength": 818,
+      "cmis:objectId": "fa9f89e3-f7f9-4814-9a2b-b704a1dffad9",
+      "cmis:path": "/a0625bd5-da8e-4aa3-8609-c79b1c650e1e_author",
+      "cmis:lastModifiedBy": "admin",
+      "cmis:contentStreamMimeType": "application/octet-stream",
+      "cmis:baseTypeId": "cmis:document",
+      "cmis:parentId": "eab19ad2-41d6-4101-a739-c537b8eea875",
+      "cmis:changeToken": "9a773429-a16c-408b-99f8-82ea6795dd93",
+      "cmis:isVersionSeriesCheckedOut": false,
+      "cmis:versionSeriesId": "7d9f0e4c-9149-48ba-957a-70f55cc1b41d",
+      "cmis:isLatestMajorVersion": true
+    },
+    "relationships": [
+      {
+        "id": "09f93b4d-7c26-4dc4-b2da-9a394a2a4411",
+        "from": "fa9f89e3-f7f9-4814-9a2b-b704a1dffad9",
+        "to": "4a6d0591-0b44-4fbf-82c1-968eb8c96595"
+      }
+    ]
+  }
+]

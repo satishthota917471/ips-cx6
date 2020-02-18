@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Content Api schema.",
+  "description": "Content Api provides querying and relationship resolving features as a replacement for CMIS",
+  "properties": {
+    "ids": {
+      "type": "array",
+      "title": "Ids schema.",
+      "description": "Content ids to be resolved",
+      "items": {}
+    },
+    "inlineRelationshipsContent": {
+      "type": "boolean",
+      "title": "InlineRelationshipsContent schema.",
+      "description": "If relationships content should be resolved and inlined in the related json content",
+      "default": true
+    },
+    "loadChildren": {
+      "type": "boolean",
+      "title": "LoadChildren schema.",
+      "description": "Should load the children of fetched content",
+      "default": false
+    },
+    "loadChildrenRecursive": {
+      "type": "boolean",
+      "title": "LoadChildrenRecursive schema.",
+      "description": "Should Recursively load the children of fetched content",
+      "default": false
+    },
+    "loadContentForMimeTypes": {
+      "type": "array",
+      "title": "LoadContentForMimeTypes schema.",
+      "description": "List of mimeTypes for which content should be loaded",
+      "items": {}
+    },
+    "loadContentForTypes": {
+      "type": "array",
+      "title": "LoadContentForTypes schema.",
+      "description": "List of Cmis Types for which content should be loaded",
+      "items": {
+        "type": "string",
+        "title": "Cmis Type schema.",
+        "description": "Cmis Types",
+        "default": "bb:structuredcontent"
+      }
+    },
+    "loadProperties": {
+      "type": "boolean",
+      "title": "LoadProperties schema.",
+      "description": "Should load all properties of the fetched items",
+      "default": false
+    },
+    "loadRecursiveRelationships": {
+      "type": "boolean",
+      "title": "LoadRecursiveRelationships schema.",
+      "description": "Load all relationships of fetched items recursively",
+      "default": true
+    },
+    "loadRenditions": {
+      "type": "boolean",
+      "title": "LoadRenditions schema.",
+      "description": "Load all renditions of fetched items ",
+      "default": false
+    },
+    "loadSourceRelationships": {
+      "type": "boolean",
+      "title": "LoadSourceRelationships schema.",
+      "description": "Load the source relationships of fetched items",
+      "default": true
+    },
+    "loadTargetRelationships": {
+      "type": "boolean",
+      "title": "LoadTargetRelationships schema.",
+      "description": "Load the target relationships of fetched items",
+      "default": false
+    },
+    "paths": {
+      "type": "array",
+      "title": "Paths schema.",
+      "description": "List of paths of content to be searched. Child folders can be omitted by adding '!' as prefix. For Ex: paths: ['/', '!/Generated content'] will fetch all children of '/ ' except '!/Generated content'",
+      "items": {}
+    },
+    "repositories": {
+      "type": "array",
+      "title": "Repositories schema.",
+      "description": "List of content repositories to limit the search to",
+      "items": {}
+    },
+    "loadVersions": {
+      "type": "boolean",
+      "title": "Load all versions schema.",
+      "description": "List of all version belonging to specific document.",
+      "default": false
+    }
+  }
+}

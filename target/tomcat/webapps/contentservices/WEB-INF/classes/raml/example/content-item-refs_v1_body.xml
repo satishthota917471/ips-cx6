@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentItemRefs totalSize="0">
+  <repositoryId>roman</repositoryId>
+  <contentItemRef>
+    <itemName>adfd81e2-7ff1-4cf0-8f73-985663f9f597</itemName>
+    <contextItemName>roman</contextItemName>
+    <itemTitle>/47073787_kotomatrix_01.jpg</itemTitle>
+    <actionType>PUBLISHED</actionType>
+  </contentItemRef>
+  <contentItemRef>
+    <itemName>251fe3c0-07e7-4082-ab17-496e44f2eb9c</itemName>
+    <contextItemName>roman</contextItemName>
+    <itemTitle>/gradlew</itemTitle>
+    <actionType>PUBLISHED</actionType>
+  </contentItemRef>
+  <contentItemRef>
+    <itemName>a35065a8-eac6-4b0a-8b53-c0b2b3b0f82f</itemName>
+    <contextItemName>roman</contextItemName>
+    <itemTitle>/folder1/the_file.txt</itemTitle>
+    <actionType>PUBLISHED</actionType>
+  </contentItemRef>
+  <contentItemRef>
+    <itemName>daafa61f-7d7a-4dbb-96bb-e5e81db36d22</itemName>
+    <contextItemName>roman</contextItemName>
+    <itemTitle>/folder1/</itemTitle>
+    <actionType>PUBLISHED</actionType>
+  </contentItemRef>
+</contentItemRefs>

@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/Generated content/my-portal/page-1/CXPContentWidgetd0e346eb-4cd4-4a8e-b545-9b9f2001cf7b/en-simpleContent",
+    "repositoryId": "3fb006de-d333-4ab2-8a3e-6f5f3c2fb5d5",
+    "type": "bb:structuredcontent",
+    "content": "{\"article\":{\"contentbody\":\"\",\"bb:title\":\"\"},\"link\":{\"path\":\"\",\"linkRef\":\"\",\"browserRef\":\"\",\"target\":\"\"},\"image\":{\"path\":\"/gateway/api/contentservices/atom/3fb006de-d333-4ab2-8a3e-6f5f3c2fb5d5/content?id=10c0c785-e622-41df-a1d5-b9e452ea8886\",\"browserRef\":\"cs:@portalRepository:10c0c785-e622-41df-a1d5-b9e452ea8886\"},\"text\":{\"textcontent\":\"\"}}",
+    "mimeType": "text/json",
+    "properties": {
+      "cmis:createdBy": "admin",
+      "cmis:lastModifiedBy": "admin",
+      "bb:locale": "en"
+    }
+  },
+  {
+    "path": "/folder-1/folder-2/myDocument",
+    "repositoryId": "contentRepository",
+    "type": "cmis:document",
+    "content": "It was a bright and sunny day. The sun shone brilliantly in the clear, blue sky.",
+    "mimeType": "text/plain",
+    "properties": {
+      "cmis:createdBy": "admin",
+      "cmis:lastModifiedBy": "admin",
+      "bb:locale": "en"
+    }
+  },
+  {
+    "id": "d0e346eb-4cd4-4a8e-b545-9b9f2001cf7b",
+    "repositoryId": "3fb006de-d333-4ab2-8a3e-6f5f3c2fb5d5",
+    "type": "cmis:document",
+    "content": "Text to update."
+  }
+]

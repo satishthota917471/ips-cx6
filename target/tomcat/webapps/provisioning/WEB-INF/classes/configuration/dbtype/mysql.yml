@@ -1,0 +1,31 @@
+## Provisioning specific database configuration
+provisioning:
+  database:
+    connectionString: jdbc:mysql://${provisioning.database.host}:${provisioning.database.port}/${provisioning.database.name}
+    username: backbase
+    password: b4ckb4s3
+    port: 3306
+    validationQuery: SELECT 1
+
+## Database configuration
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    driverclassname: com.mysql.jdbc.Driver
+    url: ${provisioning.database.connectionString}
+    username: ${provisioning.database.username}
+    password: ${provisioning.database.password}
+    tomcat:
+      minIdle: 1
+      maxActive: ${provisioning.database.maxPoolSize}
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 3600000
+      validationQuery: ${provisioning.database.validationQuery}
+    hikari:
+      poolName: ${spring.application.name}
+      minimumIdle: 1
+      maximumPoolSize: ${provisioning.database.maxPoolSize}
+      connectionTestQuery: ${provisioning.database.validationQuery}

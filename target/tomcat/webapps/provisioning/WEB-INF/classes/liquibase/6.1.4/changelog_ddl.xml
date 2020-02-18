@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="oleksandrh" id="6.1.3-6.1.4-1" dbms="mssql">
+        <sqlFile encoding="utf8"
+                 path="mssql/01_import_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"
+                 endDelimiter="GO"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="oleksandrh" id="6.1.3-6.1.4-1" dbms="mysql">
+        <sqlFile encoding="utf8"
+                 path="mysql/01_import_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="oleksandrh" id="6.1.3-6.1.4-1" dbms="oracle">
+        <sqlFile encoding="utf8"
+                 path="oracle/01_import_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="oleksandrh" id="6.1.4-tag">
+        <tagDatabase tag="6.1.4"/>
+    </changeSet>
+
+</databaseChangeLog>

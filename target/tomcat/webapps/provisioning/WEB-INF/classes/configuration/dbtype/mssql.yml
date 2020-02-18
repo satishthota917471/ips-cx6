@@ -1,0 +1,31 @@
+## Provisioning specific database configuration
+provisioning:
+  database:
+    connectionString: jdbc:sqlserver://${provisioning.database.host}:${provisioning.database.port};databaseName=${provisioning.database.name}
+    username: backbase
+    password: b4ckb4s3
+    port: 1433
+    validationQuery: SELECT 1
+
+## Database configuration
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+  datasource:
+    driverclassname: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: ${provisioning.database.connectionString}
+    username: ${provisioning.database.username}
+    password: ${provisioning.database.password}
+    tomcat:
+      minIdle: 1
+      maxActive: ${provisioning.database.maxPoolSize}
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 3600000
+      validationQuery: ${provisioning.database.validationQuery}
+    hikari:
+      poolName: ${spring.application.name}
+      minimumIdle: 1
+      maximumPoolSize: ${provisioning.database.maxPoolSize}
+      connectionTestQuery: ${provisioning.database.validationQuery}

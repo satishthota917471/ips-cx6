@@ -1,0 +1,5 @@
+DROP TABLE import_items CASCADE CONSTRAINTS;
+DROP TABLE import_packages CASCADE CONSTRAINTS;
+DROP TABLE import_item_data CASCADE CONSTRAINTS;
+
+DROP SEQUENCE hibernate_sequence;

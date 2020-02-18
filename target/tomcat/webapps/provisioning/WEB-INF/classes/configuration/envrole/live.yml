@@ -1,0 +1,6 @@
+provisioning:
+  registry:
+    host: registry-live
+  database:
+    name: provisioning_l
+    maxPoolSize: 2

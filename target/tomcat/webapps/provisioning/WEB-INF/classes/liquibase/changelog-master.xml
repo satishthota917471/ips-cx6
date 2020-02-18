@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="cxp.version" value="v6.0"/>
+
+    <!-- Main changelog file. All new changelog files should be included here -->
+    <include file="init_db/changelog_1_ddl.xml" relativeToChangelogFile="true"/>
+
+    <include file="6.0.16/changelog_ddl.xml" relativeToChangelogFile="true"/>
+
+    <include file="6.0.18/changelog_ddl.xml" relativeToChangelogFile="true"/>
+
+    <include file="6.1.1/changelog_ddl.xml" relativeToChangelogFile="true"/>
+
+    <include file="6.1.4/changelog_ddl.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

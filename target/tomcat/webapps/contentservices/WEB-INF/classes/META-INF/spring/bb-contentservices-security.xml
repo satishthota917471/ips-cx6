@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <beans:bean id="contentServicesAnonymousFilter"
+                class="com.backbase.portal.contentservices.web.filter.ContentServicesAnonymousFilter"/>
+
+    <beans:bean id="internalJwtConsumerFilter"
+                class="com.backbase.buildingblocks.jwt.internal.filter.InternalJwtConsumerFilter"/>
+
+    <beans:bean id="internalJwtConsumerConfiguration"
+                class="com.backbase.buildingblocks.jwt.internal.InternalJwtConsumerConfiguration">
+        <beans:property name="properties" value="#{ssoConfiguration.getAsProperties()}"/>
+    </beans:bean>
+
+    <beans:bean id="http403ForbiddenEntryPoint"
+                class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
+
+    <beans:bean class="com.backbase.buildingblocks.security.csrf.CsrfWebSecurityConfigurer.Beans"/>
+
+    <!-- Spring Security 5 required special case for plain text password, this is used by Sys2Sys password -->
+    <beans:bean id="noOpPasswordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder" factory-method="getInstance" />
+
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.factory.PasswordEncoderFactories" factory-method="createDelegatingPasswordEncoder">
+        <beans:property name="defaultPasswordEncoderForMatches" ref="noOpPasswordEncoder"/>
+    </beans:bean>
+
+
+    <!-- Chrome fix for favicon.ico -->
+    <http pattern="/favicon.ico" security="none"/>
+
+    <http pattern="/api/content/search" create-session="stateless" entry-point-ref="http403ForbiddenEntryPoint">
+        <headers defaults-disabled="true"/>
+        <csrf disabled="true"/>
+        <intercept-url pattern="/api/content/search" access="hasAnyRole('ADMIN','MANAGER')" method="POST"/>
+
+        <anonymous enabled="false"/>
+        <custom-filter ref="contentServicesAnonymousFilter" position="ANONYMOUS_FILTER"/>
+        <custom-filter ref="internalJwtConsumerFilter" before="PRE_AUTH_FILTER"/>
+    </http>
+
+    <http pattern="/api/content/query" create-session="stateless" entry-point-ref="http403ForbiddenEntryPoint">
+        <headers defaults-disabled="true"/>
+        <csrf disabled="true"/>
+        <intercept-url pattern="/api/content/query" access="permitAll" method="POST"/>
+
+        <anonymous enabled="false"/>
+        <custom-filter ref="contentServicesAnonymousFilter" position="ANONYMOUS_FILTER"/>
+        <custom-filter ref="internalJwtConsumerFilter" before="PRE_AUTH_FILTER"/>
+    </http>
+
+    <http create-session="stateless" entry-point-ref="http403ForbiddenEntryPoint">
+        <csrf request-matcher-ref="csrfRequestMatcher" token-repository-ref="cookieCsrfTokenRepository"/>
+        <headers defaults-disabled="true">
+            <cache-control/>
+        </headers>
+
+        <intercept-url pattern="/admin/**" access="hasAnyRole('ADMIN','MANAGER') or hasAuthority('SYS2SYS')"/>
+        <intercept-url pattern="/bbp/repositories/*" access="permitAll" method="GET"/>
+        <intercept-url pattern="/bbp/contentstream/**" access="permitAll" method="GET"/>
+        <intercept-url pattern="/bbp/**" access="hasAnyRole('ADMIN','MANAGER')"/>
+
+        <intercept-url pattern="/upload/**" access="hasAnyRole('ADMIN','MANAGER')"/>
+
+        <intercept-url pattern="/api/content/**" access="hasAnyRole('ADMIN','MANAGER') or hasAuthority('SYS2SYS')" method="POST"/>
+        <intercept-url pattern="/cache/**" access="hasAnyRole('ADMIN','MANAGER') or hasAuthority('SYS2SYS')"/>
+
+        <intercept-url pattern="/health" access="permitAll" method="GET"/>
+        <intercept-url pattern="/" access="permitAll" method="GET"/>
+
+        <anonymous enabled="false"/>
+        <custom-filter ref="contentServicesAnonymousFilter" position="ANONYMOUS_FILTER"/>
+        <custom-filter ref="internalJwtConsumerFilter" before="PRE_AUTH_FILTER"/>
+
+        <expression-handler ref="peerServiceExpressionHandler"/>
+        <intercept-url pattern="/service-api/**" access="#peerService"/>
+        <http-basic/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="#{usersConfiguration.getAdminUsername()}"
+                      password="#{usersConfiguration.getAdminPassword()}"
+                      authorities="ROLE_USER, ROLE_ADMIN"/>
+                <user name="#{usersConfiguration.getUserUsername()}"
+                      password="#{usersConfiguration.getUserPassword()}"
+                      authorities="ROLE_USER"/>
+                <user name="#{usersConfiguration.getPublishingUsername()}"
+                      password="#{usersConfiguration.getPublishingPassword()}"
+                      authorities="SYS2SYS"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean class="org.springframework.cloud.autoconfigure.RefreshAutoConfiguration"/>
+</beans:beans>

@@ -1,0 +1,2 @@
+ALTER TABLE export_package ALTER COLUMN portal_name NVARCHAR(255) NULL;
+GO

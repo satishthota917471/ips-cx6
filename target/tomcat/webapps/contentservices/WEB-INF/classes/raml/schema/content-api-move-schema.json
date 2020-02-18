@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "title": "Content Api schema",
+  "description": "Payload schema to move documents.",
+  "items": {
+    "type": "object",
+    "title": "Document",
+    "description": "CMIS Document to move",
+    "properties": {
+      "id": {
+        "type": "string",
+        "title": "Document ID",
+        "description": "ID of the existing document to move."
+      },
+      "path": {
+        "type": "string",
+        "title": "New document path",
+        "description": "New path where to move the document."
+      },
+      "repositoryId": {
+        "type": "string",
+        "title": "Repository ID",
+        "description": "Repository ID to which the document belongs."
+      }
+    },
+    "required": ["id", "path", "repositoryId"],
+    "additionalProperties": false
+  },
+  "minItems": 1
+}

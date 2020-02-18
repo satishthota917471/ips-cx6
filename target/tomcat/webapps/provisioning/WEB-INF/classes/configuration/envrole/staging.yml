@@ -1,0 +1,6 @@
+provisioning:
+  registry:
+    host: registry-staging
+  database:
+    name: provisioning_s
+    maxPoolSize: 2

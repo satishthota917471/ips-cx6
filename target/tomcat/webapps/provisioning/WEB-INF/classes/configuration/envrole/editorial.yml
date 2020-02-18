@@ -1,0 +1,6 @@
+provisioning:
+  registry:
+    host: registry-editorial
+  database:
+    name: provisioning_e
+    maxPoolSize: 2

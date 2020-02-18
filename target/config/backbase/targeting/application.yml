@@ -1,0 +1,19 @@
+#
+# Configuration file only for development
+#
+
+spring:
+  liquibase:
+    enabled: ${LIQUIBASE_ENABLED:false}
+  datasource:
+    url: jdbc:mysql://localhost:3306/tar_e?useSSL=false
+    username: root
+    password: root
+
+logging:
+  level:
+    com:
+      backbase:
+        cxp:
+          targeting: INFO
+

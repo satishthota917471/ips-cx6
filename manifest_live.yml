@@ -1,0 +1,96 @@
+---
+# SHARED CONFIGURATION
+defaults: &defaults
+  instances: 1
+  memory: 1GB
+  disk_quota: 300M
+  no-route: true
+  health-check-type: http
+  health-check-http-endpoint: /health
+  buildpacks:
+  - https://github.com/cloudfoundry/java-buildpack.git
+  timeout: 180
+commonvariables: &commonvariables
+    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: https://live-${x-registry-url}/eureka
+    EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+    EUREKA_INSTANCE_HOSTNAME: $CF_INSTANCE_INTERNAL_IP
+    EUREKA_INSTANCE_NON_SECURE_PORT: 8080
+    EUREKA_INSTANCE_METADATAMAP_CONTEXTPATH: /
+    SIG_SECRET_KEY: JWTSecretKeyDontUseInProduction!
+    EXTERNAL_SIG_SECRET_KEY: JWTSecretKeyDontUseInProduction!
+    EXTERNAL_ENC_SECRET_KEY: JWTEncKeyDontUseInProduction666!
+    JBP_CONFIG_DEBUG: '{enabled: true}'
+    SPRING_PROFILES_ACTIVE: cloud,auditing,provisioning
+    NET_SF_EHCACHE_DISABLED: true
+    BACKBASE_DBTYPE: mysql
+    BACKBASE_ENVROLE: live
+    LOGGING_SECURED_ENABLED: false
+    SPRING_ACTIVEMQ_BROKER_URL: ${activemq-broker-url}
+    SPRING_ACTIVEMQ_USER: admin
+    SPRING_ACTIVEMQ_PASSWORD: admin
+    LIQUIBASE_ENABLED: false
+    #logging.level: INFO
+
+# APPLICATION SPECIFIC CONFIGURATION
+applications:
+  - name: portal
+    <<: *defaults
+    memory: 1280M
+    path: target/dist/portal.war
+    services:
+      - portal-db
+    env:
+      <<: *commonvariables
+      PORTAL_DATABASE_MIGRATION_ENABLED: false
+      AUDITING_ENABLED: false
+      PORTAL_RESOURCELOCATION_PROFILE: contentservices
+#      PORTAL_FILESYSTEM_CONTEXTROOT: /var/nfs
+#      PORTAL_EXTERNAL_CONTEXTROOT:
+
+  - name: contentservices
+    <<: *defaults
+    memory: 1280M
+    disk_quota: 500M
+    path: target/dist/contentservices.war
+    services:
+      - contentservices-db
+    env:
+      <<: *commonvariables
+      CONTENTSERVICES_DATABASE_MIGRATION_ENABLED: false
+      contentservices.jms.broker-url: ${activemq-broker-url}
+      contentservices.jms.user: admin
+      contentservices.jms.password: admin
+      CONTENTSERVICES_FILESYSTEM_IMPORT_LOCATION: /tmp/backbase/contentservices/import
+      CONTENTSERVICES_FILESYSTEM_EXPORT_LOCATION: /tmp/backbase/contentservices/export
+
+  - name: targeting
+    <<: *defaults
+    path: target/dist/targeting.war
+    services:
+      - targeting-db
+    env:
+      <<: *commonvariables
+
+  - name: publishing
+    <<: *defaults
+    path: target/dist/publishing.war
+    services:
+      - publishing-db
+    no-route: false
+    routes:
+      - route: https://publishing-cx-live.apps.backbasepcf.com
+    env:
+      <<: *commonvariables
+      PUBLISHING_DATABASE_MIGRATION_ENABLED: false
+      publishing.name: OrchestratorLive
+      publishing.filesystem.import.location: /tmp/backbase/publishing/import
+      publishing.filesystem.export.location: /tmp/backbase/publishing/export
+      publishing.filestorelocation:  /tmp/backbase/publishing/fileStore
+
+  - name: provisioning
+    <<: *defaults
+    path: target/dist/provisioning.war
+    services:
+      - provisioning-db
+    env:
+      <<: *commonvariables

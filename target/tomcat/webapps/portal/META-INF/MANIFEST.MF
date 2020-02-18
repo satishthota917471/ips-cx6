@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: Backbase CXP Portal - Packaging - Spring Boot
+Implementation-Version: r6.1.5.1_2
+Built-By: go
+Implementation-Vendor-Id: com.backbase.cxp.portal.packaging
+Created-By: Apache Maven 3.5.0
+Build-Jdk: 1.8.0_192
+Implementation-URL: http://stash.backbase.com/projects/CXP-PORTAL/repo
+ s/portal/browse/packaging/cxp-portal-webapp
+Implementation-Vendor: Backbase B.V.
+

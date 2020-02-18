@@ -1,0 +1,884 @@
+#%RAML 0.8
+# NOTE: Not all possible response-statuses are documented in the RAML. Common statuses that can occur on any request,
+# such as 401, 403 or 500 are not specified.
+---
+title: Backbase Content Services Repository
+version: v1
+baseUri: http://backbase.com/contentservices/{version}
+securitySchemes:
+  - basic:
+      type: Basic Authentication
+      description: Content Services supports Http Basic Authentication for authenticating all API requests.
+securedBy: [basic]
+
+resourceTypes:
+  - contentQueryResourceTypes:
+      description: Content query.
+      post:
+        description: Performs a content query.
+        body:
+          application/json:
+            schema: !include schema/content-api-query-schema.json
+            example: !include example/content-api-query-request-example.json
+        responses:
+          200:
+            description:  Query result.
+            body:
+              application/json:
+                schema: !include schema/content-api-query-response-schema.json
+                example: !include example/content-api-query-response-example.json
+          400:
+            description: A payload has missing required, forbidden properties, or not well formed.
+            body:
+              application/json:
+          404:
+            description: Query returned an empty resultset.
+            body:
+              application/json:
+  - contentSaveResourceTypes:
+      description: Documents save query.
+      post:
+        description: Performs creation or update of documents.
+        body:
+          application/json:
+            schema: !include schema/content-api-save-schema.json
+            example: !include example/content-api-save-request-example.json
+        responses:
+          200:
+            description: Documents successfully created and/or updated.
+            body:
+              application/json:
+                schema: !include schema/content-api-query-response-schema.json
+                example: !include example/content-api-query-response-example.json
+          400:
+            description: A payload has missing required, forbidden properties, or not well formed.
+            body:
+              application/json:
+          404:
+            description: Can not find the object to be removed
+            body:
+              application/json:
+  - contentRemoveResourceTypes:
+      description: Documents delete query.
+      post:
+        description: Performs deletion of documents by their ids.
+        body:
+          application/json:
+            schema: !include schema/content-api-remove-schema.json
+            example: !include example/content-api-remove-request-example.json
+        responses:
+          204:
+            description: Documents successfully deleted.
+          400:
+            description: A payload has missing required, forbidden properties, or not well formed.
+            body:
+              application/json:
+          404:
+            description: Can not find the object to be removed
+            body:
+              application/json:
+  - contentRevertResourceTypes:
+      description: Documents revert versions query.
+      post:
+        description: Performs documents reverting to specific versions.
+        body:
+          application/json:
+            schema: !include schema/content-api-revert-schema.json
+            example: !include example/content-api-revert-request-example.json
+        responses:
+          200:
+            description: Documents successfully reverted to the specified versions.
+            body:
+              application/json:
+                schema: !include schema/content-api-query-response-schema.json
+                example: !include example/content-api-query-response-example.json
+          400:
+            description: A payload has missing required properties, not well formed, has additional forbidden properties.
+            body:
+              application/json:
+          404:
+            description: Can not find the object to be reverted
+            body:
+              application/json:
+  - repositoriesCollectionsResourceTypes:
+      description: Create new repository.
+      post:
+        description: Create new repository.
+        body:
+          application/xml:
+            schema: !include schema/repository-definitions.xsd
+            example: !include example/repository-definitions.xml
+        responses:
+            201:
+              description:  New repository was created.
+  - repositoriesItemResourceTypes:
+      description: Repository object endpoint.
+      uriParameters:
+        repositoryId:
+          description: Repository Id.
+          type: string
+      get:
+        description: Returns a repository definition
+        responses:
+          200:
+            description: Repository information
+            body:
+              application/json:
+          404:
+            description: Repository was not found
+            body:
+              application/json:
+      delete:
+        description: Delete repository.
+        responses:
+          204:
+            description:  Repository was successfully deleted.
+          404:
+            description:  Repository to delete was not found
+            body:
+              application/json:
+  - respositoryRevertItemResourceTypes:
+      description: Revert a list of objects to previous versions.
+      uriParameters:
+        repositoryId:
+          description: ID of the repository.
+      post:
+        description: Revert a list of objects to previous versions. Body contains list of objects.
+        body:
+          application/xml:
+            schema: !include schema/contentrefs.xsd
+            example: !include example/contentrefs.xml
+        responses:
+          204:
+            description: Reverted successfully.
+          404:
+            description: In case if repository does not exist
+            body:
+              application/xml:
+                schema: !include schema/not-found-message_response_body.xsd
+                example: !include example/repository-not-found-exeption_post_body_response.xml
+  - versionItemResourceTypes:
+      description: |
+        Create a version for the specified paths in the specified repository.
+        Items that cannot be found are ignored.
+      post:
+        body:
+          application/xml:
+            schema: !include schema/contentrefs.xsd
+            example: !include example/contentrefs.xml
+        responses:
+          200:
+            description: Created.
+            body:
+              application/xml:
+          404:
+            description: In case if repository does not exist
+            body:
+              application/xml:
+                schema: !include schema/not-found-message_response_body.xsd
+                example: !include example/repository-not-found-exeption_post_body_response.xml
+  - versionsResourceTypes:
+      description: Revert a objects to specified version.
+      uriParameters:
+        repositoryId:
+          description: ID of the repository.
+      post:
+        queryParameters:
+          objectId:
+            description: Id of object to be reverted.
+            type: string
+            required: true
+            example: 94cb0659-3831-41db-9a10-1b76e7073a78
+          version:
+            description: Version to revert.
+            type: string
+            required: true
+        responses:
+          204:
+            description: Reverted seccessfully.
+          404:
+            description: In case if repository, objectId or version does not exist
+            body:
+              application/xml:
+                schema: !include schema/not-found-message_response_body.xsd
+                example: !include example/repository-not-found-exeption_post_body_response.xml
+  - uploadResourceTypes:
+      description: |
+        Acts as an intermediary for uploading files to content services. Should only be used in case a client is not able to
+        use the regular CMIS end points; i.e. if you're using a browser without HTML 5 Drop Zone.
+      post:
+        body:
+          multipart/form-data:
+            formParameters:
+              targetPath:
+                description: Path in the repository to be downloaded
+                type: string
+                example: /folder1
+                required: true
+              file:
+                description: File to upload.
+                type: file
+                required: true
+              name:
+                description: Name with will be used for uploaded file in CMIS.
+                type: string
+                example: FileName
+                required: false
+              "cmis:objectTypeId":
+                description: CMIS type that  will be set for uploaded file in CMIS.
+                enum:
+                  - "cmis:document"
+                example: "cmis:document"
+                required: false
+              "cmis:createdBy":
+                description: CreatedBy property that with will be set for uploaded file in CMIS.
+                type: string
+                example: John
+                required: false
+              "cmis:lastModifiedBy":
+                description: LastModifiedBy property that with will be set for uploaded file in CMIS.
+                type: string
+                example: John
+                required: false
+              "bb:title":
+                description: bb:title property that with will be set for uploaded file in CMIS.
+                type: string
+                example: anytitle
+                required: false
+              "cmis:changeToken":
+                description: "cmis:changeToken property that with will be set for uploaded file in CMIS."
+                type: string
+                required: false
+              "repositoryId":
+                description: |
+                  ID of repository in which object should be created. If none mentioned, contentRepository will be used.
+                type: string
+                default: contentRepository
+                required: false
+        responses:
+          200:
+            description: Content uploaded successfully. Id of created object.
+            body:
+              text/html:
+                example: "objectId:251fe3c0-07e7-4082-ab17-496e44f2eb9c"
+          400:
+            description: Content type is not allowed.
+            body:
+              application/json;charset=UTF-8:
+                example: |
+                  {
+                    "message" : "Content type not allowed",
+                    "contentType" : "video/x-msvideo"
+                  }
+
+  - contentStreamIdResourceTypes:
+      displayName: Content stream of an object from a given repository.
+      uriParameters:
+        repositoryId:
+          description: Repository ID of the object to retrieve content stream of.
+          type: string
+        objectId:
+          description: Object ID to retrieve content stream of.
+          type: string
+      get:
+        description: Gets content stream of an object by object id.
+        responses:
+          200:
+            description: Object is found. Content stream is returned.
+            body:
+              application/octet-stream:
+          304:
+            description: Object is found. Content stream shoud be taken from cache.
+          404:
+            description: Object or its content stream is not found.
+            body:
+              application/json:
+
+/service-api:
+  displayName: Service2Service Endpoint (Internally Exposed)
+  description: Content service functionlaties exposed for internal backbase services.
+  /content:
+    displayName: Service2Service Content endpoints.
+    /query:
+      type: contentQueryResourceTypes
+    /save:
+      type: contentSaveResourceTypes
+    /remove:
+      type: contentRemoveResourceTypes
+    /revert:
+      type: contentRevertResourceTypes
+  /bbp:
+    displayName: Service2Service BBP endpoints.
+    /repositories:
+      type: repositoriesCollectionsResourceTypes
+      /{repositoryId}:
+        type: repositoriesItemResourceTypes
+  /admin:
+    displayName: Admin endpoints
+    /revert/{repositoryId}:
+      type: respositoryRevertItemResourceTypes
+    /version/{repositoryId}:
+      type: versionItemResourceTypes
+    /versions/revert/{repositoryId}:
+      type: versionsResourceTypes
+  /upload:
+    displayName: Intermediary tool for uploading files to content services.
+    /form:
+      type: uploadResourceTypes
+  /contentstream-id:
+    /{repositoryId}:
+      /{objectId}:
+        type: contentStreamIdResourceTypes
+
+/bbp:
+  displayName: BBP endpoints. (Publicly Exposed)
+  /repositories:
+    type: repositoriesCollectionsResourceTypes
+    /{repositoryId}:
+      type: repositoriesItemResourceTypes
+    /copy:
+      /{srcRepository}/{dstRepository}:
+        description: Copy repository content.
+        uriParameters:
+          srcRepository:
+            description: Repository ID to copy from
+            type: string
+          dstRepository:
+            description: Repository ID to copy to
+            type: string
+        post:
+          description: Copy repository content.
+          responses:
+            200:
+              description:  Content successfully copied.
+            404:
+              description: Can not find one repository, either source or destination.
+              body:
+                application/json:
+
+  /contentstream/{repositoryId}/{path}:
+    displayName: Content stream of an object by its path within a repository.
+    uriParameters:
+      repositoryId:
+        description: Repository ID of the object to retrieve content stream of.
+        type: string
+      path:
+        description: Path to retrieve the content stream of.
+        type: string
+    get:
+      description: Gets content stream of an object by path.
+      responses:
+        200:
+          description: Object is found. Content stream is returned.
+          body:
+            application/octet-stream:
+        304:
+          description: Object is found. Content stream shoud be taken from cache.
+        404:
+          description: Object or its content stream is not found.
+          body:
+            application/json:
+
+/upload:
+    displayName: Intermediary tool for uploading files to content services. (Publicly Exposed)
+    /form:
+      type: uploadResourceTypes
+/admin:
+  displayName: Admin endpoints. (Publicly Exposed)
+  /delete/{repositoryName}:
+    description: Delete multiple content refs listed in body.
+    post:
+      body:
+          application/xml:
+      responses:
+          204:
+            description:  Content deleted
+          404:
+            description: Repository to delete was not found
+            body:
+              application/xml:
+          409:
+            description:  Content cannot be deleted (i.e. resource is locked)
+            body:
+              application/xml:
+                schema: !include schema/resource-is-locked-message_response_body.xsd
+                example: !include example/resource-is-locked-exception_post_body_response.xml
+  /import/{repository}:
+    description: Import a ContentBundle.
+    uriParameters:
+      repository:
+        description: Repository to import to.
+        type: string
+    post:
+      body:
+        multipart/form-data:
+          formParameters:
+            file:
+              description: The content bundle to import.
+              type: file
+              required: true
+      queryParameters:
+        p:
+          description: The path of the parent folder where to import the bundle.
+          default: /
+          type: string
+          required: false
+        cp:
+          description: Only considered if path is provided, allows the full path to be created if not already there.
+          default: false
+          type: boolean
+          required: false
+        o:
+          description: If any file is found at one or more locations specified in the ContentBundle, they will be overwritten.
+          default: false
+          type: boolean
+          required: false
+      responses:
+          201:
+            description: Import has been done successfully.
+          404:
+            description: If the target repository is not found
+  /importRepository/{repository}:
+    description: Import repository with all of its content.
+    uriParameters:
+      repository:
+        description: Repository to import to.
+        type: string
+    post:
+      body:
+        multipart/form-data:
+          formParameters:
+            file:
+              description: The content bundle to import.
+              type: file
+              required: true
+      queryParameters:
+        o:
+          description: If any file is found at one or more locations specified in the ContentBundle, they will be overwritten
+          default: false
+          type: boolean
+          required: false
+      responses:
+          201:
+            description: Import has been done successfully.
+  /importSharedContent:
+    description: Import Shared ContentBundle.
+    post:
+      body:
+        multipart/form-data:
+          formParameters:
+            file:
+              description: The content bundle to import.
+              type: file
+              required: true
+      responses:
+          201:
+            description: Import has been done successfully.
+  /importResourceBundle:
+    description: Import Resource Bundle.
+    post:
+      body:
+        multipart/form-data:
+          formParameters:
+            file:
+              description: The resource bundle to import.
+              type: file
+              required: true
+      queryParameters:
+            rootPath:
+              description: Set the rootPath to import the bundle. Allowed regex is [a-zA-Z0-9-_]+
+              default: contextRoot
+              type: string
+              required: false
+      responses:
+          201:
+            description: Import has been done successfully.
+          400:
+            description: If the request is malformed, for example if one required param (e.g. file) is not present
+  /exportRepository/{repository}:
+    description: Returns a zip containing an export of the specified repository.
+    uriParameters:
+      repository:
+        description: Repository to take the export from.
+        type: string
+    post:
+      responses:
+          200:
+            description: Export has been done successfully.
+            body:
+              application/zip:
+            headers:
+              Content-Type:
+                description: Export always uses zip format to export.
+                default: application/zip
+                type: string
+                required: true
+              Content-Disposition:
+                description: Export file name is fixed.
+                default: attachment; filename=repository-export.zip
+                type: string
+                required: true
+          404:
+            description: Returned when repository or object does not exist
+            body:
+              application/xml:
+                schema: !include schema/not-found-message_response_body.xsd
+                example: !include example/repository-not-found-exeption_post_body_response.xml
+  /export/{repository}:
+    description: Returns a zip containing an export of the specified content paths.
+    uriParameters:
+      repository:
+        description: Repository to take the export from.
+        type: string
+    post:
+      description: body specified which contentrefs should be exported
+      queryParameters:
+          om:
+            description: Optional metadata to include in the export. If empty, export no metadata; if "null", export all.
+            type: string
+            required: false
+            default:
+      body:
+          application/xml:
+      responses:
+          200:
+            description: Export has been done successfully.
+            body:
+              application/zip:
+            headers:
+              Content-Type:
+                description: Export always uses zip format to export.
+                default: application/zip
+                type: string
+                required: true
+              Content-Disposition:
+                description: Export file name is fixed.
+                default: attachment; filename=repository-export.zip
+                type: string
+                required: true
+          404:
+            description: Returned when repository or object does not exist
+            body:
+              application/xml:
+                schema: !include schema/not-found-message_response_body.xsd
+                example: !include example/repository-not-found-exeption_post_body_response.xml
+  /clearRepository/{repository}:
+    description: Wipes the repository clean. Used before republishing.
+    uriParameters:
+      repository:
+        description: ID of the repository to clear.
+        type: string
+    post:
+      description: body should be empty.
+      responses:
+        204:
+          description: The repository has been cleaned successfully.
+        404:
+          description: The repository does not exist.
+          body:
+            application/xml:
+              schema: !include schema/not-found-message_response_body.xsd
+              example: !include example/repository-not-found-exeption_post_body_response.xml
+  /publishing:
+    /{repository}/published:
+      description: Returns all published non-generated content for the given repository.
+      uriParameters:
+        repository:
+          description: ID of the repository.
+      get:
+        description: Get list of published content.
+        responses:
+          200:
+            description: Get list of published content. May be empty list.
+            body:
+              application/xml:
+                schema: !include schema/content-item-refs_v1_body.xsd
+                example: !include example/content-item-refs_v1_body.xml
+          404:
+            description: In case if repository does not exist
+            body:
+              application/xml:
+                schema: !include schema/not-found-message_response_body.xsd
+                example: !include example/repository-not-found-exeption_post_body_response.xml
+    /validation/dependencies:
+      description: Validates dependencies for publishing.
+      post:
+        description: Send list of items to be validated.
+        body:
+          application/xml:
+            schema: !include schema/content-item-refs_v1_body.xsd
+            example: !include example/content-item-refs_v1_body.xml
+        responses:
+          200:
+            description: Validation passed successfully.
+            body:
+              application/xml:
+          404:
+            description: Can not find content object while validation content references.
+            body:
+              application/xml:
+  /revert/{repositoryId}:
+    type: respositoryRevertItemResourceTypes
+  /version/{repositoryId}:
+    type: versionItemResourceTypes
+  /versions/revert/{repositoryId}:
+    type: versionsResourceTypes
+
+  /lock/{repositoryId}:
+    description: Locks repository content.
+    uriParameters:
+      repositoryId:
+        description: Repository ID to lock content of.
+        type: string
+    post:
+      description: Locks content items specified in the body.
+      body:
+        application/xml:
+          schema: !include schema/contentrefs.xsd
+          example: !include example/contentrefs.xml
+      responses:
+        204:
+          description: Returned if locking is successful.
+        404:
+          description: Returned if repository id is wrong or if content refs contain wrong item id
+          body:
+            application/xml:
+              schema: !include schema/not-found-message_response_body.xsd
+              example: !include example/repository-not-found-exeption_post_body_response.xml
+  /unlock/{repositoryId}:
+    description: Unlocks repository content.
+    uriParameters:
+      repositoryId:
+        description: Repository ID to unlock content of.
+        type: string
+    post:
+      description: Unlocks content items specified in the body.
+      body:
+        application/xml:
+          schema: !include schema/contentrefs.xsd
+          example: !include example/contentrefs.xml
+      responses:
+        204:
+          description: Returned if unlocking is successful.
+        404:
+          description: Returned if repository id is wrong or if content refs contain wrong item id
+          body:
+            application/xml:
+              schema: !include schema/not-found-message_response_body.xsd
+              example: !include example/repository-not-found-exeption_post_body_response.xml
+  /unlockPublished/{repositoryId}:
+    description: Unlocks repository content.
+    uriParameters:
+      repositoryId:
+        description: Repository ID to unlock content of.
+        type: string
+    post:
+      description: Unlocks content items specified in the body after a successful publish. This action will change the publish state.
+      body:
+        application/xml:
+          schema: !include schema/contentrefs.xsd
+          example: !include example/contentrefs.xml
+      responses:
+        204:
+          description: Returned if unlocking is successful.
+        404:
+          description: Returned if repository id is wrong or if content refs contain wrong item id
+          body:
+            application/xml:
+              schema: !include schema/not-found-message_response_body.xsd
+              example: !include example/repository-not-found-exeption_post_body_response.xml
+  /unlockUnpublished/{repositoryId}:
+    description: Unlocks content.
+    uriParameters:
+      repositoryId:
+        description: Repository ID to unlock content of.
+        type: string
+    post:
+      description: Unlocks content items specified in the body after a successful unpublish. This action will change the publish state.
+      body:
+        application/xml:
+          schema: !include schema/contentrefs.xsd
+          example: !include example/contentrefs.xml
+      responses:
+        204:
+          description: Returned if unlocking is successful.
+        404:
+          description: Returned if repository id is wrong or if content refs contain wrong item id
+          body:
+            application/xml:
+              schema: !include schema/not-found-message_response_body.xsd
+              example: !include example/repository-not-found-exeption_post_body_response.xml
+/health:
+  displayName: Health ckeck of the component. (Publicly Exposed)
+  get:
+      description: |
+        Get the aggregated status of the health of the database and the web application. In case of
+        anonymous access it switches off sensitive information.
+      responses:
+        200:
+          body:
+            application/json:
+              schema: !include schema/heath-check_v1_body_responce.json
+              example: !include example/heath-check_v1_body_responce.json
+/api:
+  displayName: Content Services Content API. (Publicly Exposed)
+  /contentstream/{repositoryId}/{path}:
+    displayName: Content stream of an object by its path within a repository.
+    uriParameters:
+      repositoryId:
+        description: Repository ID of the object to retrieve content stream of.
+        type: string
+      path:
+        description: Path to retrieve the content stream of.
+        type: string
+    get:
+      description: Gets content stream of an object by path.
+      responses:
+        200:
+          description: Object is found. Content stream is returned.
+          body:
+            application/octet-stream:
+        304:
+          description: Object is found. Content stream shoud be taken from cache.
+        404:
+          description: Object or its content stream is not found.
+          body:
+            application/json:
+  /contentstream-id:
+    /{repositoryId}:
+      /{objectId}:
+        type: contentStreamIdResourceTypes
+  /contentstream-relationship/{relationshipId}:
+    displayName: Content stream of the target relationship object.
+    uriParameters:
+      relationshipId:
+        description: Relationship ID of the target object.
+        type: string
+    get:
+      description: Gets content stream of a relationship's target object by relationship id.
+      responses:
+        200:
+          description: Object is found. Content stream is returned.
+          body:
+            application/octet-stream:
+        304:
+          description: Object is found. Content stream shoud be taken from cache.
+        404:
+          description: Object or its content stream is not found.
+          body:
+            application/json:
+  /content:
+    /query:
+      description: Content query.
+      type: contentQueryResourceTypes
+    /search:
+      description: Content metadata search.
+      post:
+        description: Performs a metadata search.
+        body:
+          application/json:
+            schema: !include schema/content-api-search-schema.json
+            example: !include example/content-api-search-request-example.json
+        responses:
+          200:
+            description:  Search result.
+            body:
+              application/json:
+                schema: !include schema/content-api-query-response-schema.json
+                example: !include example/content-api-query-response-example.json
+          400:
+            description: A payload has missing required, forbidden properties, or not well formed.
+            body:
+              application/json:
+    /save:
+      description: Documents save query.
+      type: contentSaveResourceTypes
+    /remove:
+      description: Documents delete query.
+      type: contentRemoveResourceTypes
+    /move:
+      description: Documents move query.
+      post:
+        description: Performs moving of documents.
+        body:
+          application/json:
+            schema: !include schema/content-api-move-schema.json
+            example: !include example/content-api-move-request-example.json
+        responses:
+          200:
+            description: Documents successfully moved.
+            body:
+              application/json:
+                schema: !include schema/content-api-query-response-schema.json
+                example: !include example/content-api-query-response-example.json
+          400:
+            description: A payload has missing required, forbidden properties, or not well formed.
+            body:
+              application/json:
+    /revert:
+      description: Documents revert versions query.
+      type: contentRevertResourceTypes
+    /import:
+      description: Content Import.
+      post:
+        description: Imports a content bundle (zip).
+        body:
+          multipart/form-data:
+            formParameters:
+              file:
+                description: File to upload.
+                type: file
+                required: true
+        responses:
+          201:
+            description: Documents successfully imported.
+    /export:
+      description: Returns a a content bundle (zip).
+      post:
+        body:
+          application/json:
+            schema: !include schema/content-api-query-schema.json
+            example: !include example/content-api-query-request-example.json
+        responses:
+            200:
+              description: Export has been done successfully.
+              body:
+                application/zip:
+              headers:
+                Content-Type:
+                  description: Export always uses zip format to export.
+                  default: application/zip
+                  type: string
+                  required: true
+                Content-Disposition:
+                  description: Export file name is fixed.
+                  default: attachment; filename=repository-export.zip
+                  type: string
+                  required: true
+/cache:
+  displayName: Content Services Cache Management (Publicly Exposed)
+  get:
+    description: Cache statistics.
+    responses:
+      200:
+        description: Cache statistics received.
+        body:
+          application/json:
+            schema: !include schema/get-cache_v1_body_response.json
+            example: !include example/get-cache_v1_body_response.json
+  delete:
+    description: Clears all the caches
+    responses:
+      204:
+        description: Caches are cleared
+  /{cacheName}:
+    description: Cleans cache by its name.
+    uriParameters:
+      cacheName:
+        description: Name of a cache to clean
+        type: string
+    delete:
+      description: Clears cache by name
+      responses:
+        204:
+          description: Cache is cleared.

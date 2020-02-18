@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <contextName>contentservices</contextName>
+
+    <logger name="com.backbase" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+
+    <include resource="com/backbase/buildingblocks/logging/base.xml" />
+
+</configuration>

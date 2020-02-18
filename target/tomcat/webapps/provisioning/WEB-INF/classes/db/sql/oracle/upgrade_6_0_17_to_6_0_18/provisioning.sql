@@ -1,0 +1,1 @@
+ALTER TABLE export_item ADD (manifest_position INTEGER DEFAULT 1 NOT NULL);

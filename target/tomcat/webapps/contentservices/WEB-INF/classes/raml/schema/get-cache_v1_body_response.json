@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Contentservices cache",
+  "type": "object",
+  "patternProperties": {
+    "^[a-zA-Z0-9]*$": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "title": "Cache size",
+          "description": "Number of entries in the cache"
+        },
+        "hitRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "exclusiveMaximum": true,
+          "title": "Cache hit ratio",
+          "description": "Shows how often items were taken from the cache"
+        },
+        "missRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "exclusiveMinimum": true,
+          "title": "Cache hit ratio",
+          "description": "Shows how offten items were taken from the original source"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Content Api Export schema.",
+  "description": "Content Export Api provides content exporting funcitionality based on a subset of the query request",
+  "properties": {
+    "paths": {
+      "type": "array",
+      "title": "Paths schema.",
+      "description": "List of paths of content to be searched. Child folders can be omitted by adding '!' as prefix. For Ex: paths: ['/', '!/Generated content'] will fetch all children of '/ ' except '!/Generated content'",
+      "items": {}
+    },
+    "repositories": {
+      "type": "array",
+      "title": "Repositories schema.",
+      "description": "List of content repositories to limit the search to",
+      "items": {}
+    }
+  },
+   "required": ["repositories"],
+   "additionalProperties": false
+}

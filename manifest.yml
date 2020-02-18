@@ -1,0 +1,168 @@
+---
+# SHARED CONFIGURATION
+defaults: &defaults
+  instances: 1
+  memory: 1GB
+  disk_quota: 300M
+  no-route: true
+  health-check-type: http
+  health-check-http-endpoint: /health
+  buildpacks:
+  - https://github.com/cloudfoundry/java-buildpack.git
+  timeout: 180
+commonvariables: &commonvariables
+    GATEWAY_TOKEN_CONVERTER_TYPE: SERVICE
+    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: ${x-registry-url}/eureka
+    EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
+    EUREKA_INSTANCE_HOSTNAME: $CF_INSTANCE_INTERNAL_IP
+    EUREKA_INSTANCE_NON_SECURE_PORT: 8080
+    EUREKA_INSTANCE_METADATAMAP_CONTEXTPATH: /
+    SIG_SECRET_KEY: JWTSecretKeyDontUseInProduction!
+    EXTERNAL_SIG_SECRET_KEY: JWTSecretKeyDontUseInProduction!
+    EXTERNAL_ENC_SECRET_KEY: JWTEncKeyDontUseInProduction666!
+    JBP_CONFIG_DEBUG: '{enabled: true}'
+    SPRING_PROFILES_ACTIVE: cloud,auditing,provisioning
+    BACKBASE_DBTYPE: mysql
+    BACKBASE_ENVROLE: editorial
+    LOGGING_SECURED_ENABLED: false
+    SPRING_ACTIVEMQ_BROKER_URL: ${activemq-broker-url}
+    SPRING_ACTIVEMQ_USER: admin
+    SPRING_ACTIVEMQ_PASSWORD: admin
+    LIQUIBASE_ENABLED: false
+    #logging.level: INFO
+
+# APPLICATION SPECIFIC CONFIGURATION
+applications:
+  - name: portal
+    <<: *defaults
+    memory: 1280M
+    path: target/dist/portal.war
+    services:
+      - portal-db
+    env:
+      <<: *commonvariables
+      PORTAL_DATABASE_MIGRATION_ENABLED: false
+      AUDITING_ENABLED: false
+      PORTAL_RESOURCELOCATION_PROFILE: contentservices
+
+  - name: contentservices
+    <<: *defaults
+    memory: 1280M
+    disk_quota: 500M
+    path: target/dist/contentservices.war
+    services:
+      - contentservices-db
+    env:
+      <<: *commonvariables
+      CONTENTSERVICES_DATABASE_MIGRATION_ENABLED: false
+      CONTENTSERVICES_FILESYSTEM_IMPORT_LOCATION: /tmp/backbase/contentservices/import
+      CONTENTSERVICES_FILESYSTEM_EXPORT_LOCATION: /tmp/backbase/contentservices/export
+  - name: targeting
+    <<: *defaults
+    path: target/dist/targeting.war
+    services:
+      - targeting-db
+    env:
+      <<: *commonvariables
+
+  - name: publishing
+    <<: *defaults
+    path: target/dist/publishing.war
+    services:
+      - publishing-db
+    no-route: false
+    routes:
+      - route: https://publishing-cx-editorial-${e-pcf-space-name}.apps.backbasepcf.com
+    env:
+      <<: *commonvariables
+      PUBLISHING_DATABASE_MIGRATION_ENABLED: false
+      publishing.filesystem.import.location: /tmp/backbase/publishing/import
+      publishing.filesystem.export.location: /tmp/backbase/publishing/export
+      publishing.name: OrchestratorEditorial
+      publishing.envrole: ${BACKBASE_ENVROLE}
+      publishing.username: sys2sys
+      publishing.password: sys2sys
+      publishing.dbtype: ${BACKBASE_DBTYPE}
+      publishing.gateway.name: ""
+      publishing.gateway.servicepath: api
+      publishing.gateway.names: gatewayEditorial,gatewayStaging,gatewayLive
+      publishing.filestorelocation:  /tmp/backbase/publishing/fileStore
+#      publishing.configuration.location: /publishing/WEB-INF/classes/publishchains.xml
+      publishing.environment.names: OrchestratorEditorial,OrchestratorStaging,OrchestratorLive
+      publishing.approvalgroups: admin,manager,approvers
+      publishing.publishgroups: admin,manager,publishers
+      # editorial
+      publishing.environment.OrchestratorEditorial.username: sys2sys
+      publishing.environment.OrchestratorEditorial.password: sys2sys
+      publishing.environment.OrchestratorEditorial.port: 80
+      publishing.environment.OrchestratorEditorial.address: publishing-cx-editorial.apps.backbasepcf.com
+      publishing.environment.OrchestratorEditorial.contextpath: /
+      publishing.gateway.gatewayEditorial.address: gateway-cx-editorial.apps.backbasepcf.com
+      publishing.gateway.gatewayEditorial.port: 80
+      publishing.gateway.gatewayEditorial.contextpath: ${publishing.gateway.name}
+      publishing.gateway.gatewayEditorial.servicepath: ${publishing.gateway.servicepath}
+      # staging
+      publishing.environment.OrchestratorStaging.username: sys2sys
+      publishing.environment.OrchestratorStaging.password: sys2sys
+      publishing.environment.OrchestratorStaging.port: 80
+      publishing.environment.OrchestratorStaging.address: publishing-cx-staging.apps.backbasepcf.com
+      publishing.environment.OrchestratorStaging.contextpath: /
+      publishing.gateway.gatewayStaging.address: gateway-cx-staging.apps.backbasepcf.com
+      publishing.gateway.gatewayStaging.port: 80
+      publishing.gateway.gatewayStaging.contextpath: ${publishing.gateway.name}
+      publishing.gateway.gatewayStaging.servicepath: ${publishing.gateway.servicepath}
+      # live
+      publishing.environment.OrchestratorLive.username: sys2sys
+      publishing.environment.OrchestratorLive.password: sys2sys
+      publishing.environment.OrchestratorLive.port: 80
+      publishing.environment.OrchestratorLive.address: publishing-cx-live.apps.backbasepcf.com
+      publishing.environment.OrchestratorLive.contextpath: /
+      publishing.gateway.gatewayLive.address: gateway-cx-live.apps.backbasepcf.com
+      publishing.gateway.gatewayLive.port: 80
+      publishing.gateway.gatewayLive.contextpath: ${publishing.gateway.name}
+      publishing.gateway.gatewayLive.servicepath: ${publishing.gateway.servicepath}
+
+  - name: auditing
+    <<: *defaults
+    path: target/dist/auditing.war
+    services:
+      - auditing-db
+    env:
+      <<: *commonvariables
+
+  - name: provisioning
+    <<: *defaults
+    path: target/dist/provisioning.war
+    services:
+      - provisioning-db
+    env:
+      <<: *commonvariables
+
+  - name: renditionservice
+    <<: *defaults
+    path: target/dist/renditionservice.war
+    services:
+      - renditionservice-db
+    env:
+      <<: *commonvariables
+
+  - name: thumbnailservice
+    <<: *defaults
+    path: target/dist/thumbnailservice.war
+    env:
+      <<: *commonvariables
+
+# Uncomment mobile if needed
+#  - name: versionmanagement-persistence-service
+#    <<: *defaults
+#    path: target/dist/versionmanagement-persistence-service.war
+#    health-check-http-endpoint: /production-support/health
+#    services:
+#      - mobile-db
+#
+#  - name: push-integration-service
+#    <<: *defaults
+#    path: target/dist/push-integration-service.war
+#    health-check-http-endpoint: /production-support/health
+#    services:
+#      -  mobile-db

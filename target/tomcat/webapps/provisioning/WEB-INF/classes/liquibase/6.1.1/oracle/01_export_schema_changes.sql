@@ -1,0 +1,1 @@
+alter table export_package modify (portal_name null);

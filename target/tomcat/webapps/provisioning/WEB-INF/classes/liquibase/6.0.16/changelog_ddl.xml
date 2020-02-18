@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="atilla" id="6.0.15-6.0.16-1" dbms="mssql">
+        <sqlFile encoding="utf8"
+                 path="mssql/01_import_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"
+                 endDelimiter="GO"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="eduardo" id="6.0.15-6.0.16-2" dbms="mssql">
+        <sqlFile encoding="utf8"
+                 path="mssql/02_export_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"
+                 endDelimiter="GO"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="atilla" id="6.0.15-6.0.16-1" dbms="mysql">
+        <sqlFile encoding="utf8"
+                 path="mysql/01_import_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="eduardo" id="6.0.15-6.0.16-2" dbms="mysql">
+        <sqlFile encoding="utf8"
+                 path="mysql/02_export_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="atilla" id="6.0.15-6.0.16-1" dbms="oracle">
+        <sqlFile encoding="utf8"
+                 path="oracle/01_import_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="eduardo" id="6.0.15-6.0.16-2" dbms="oracle">
+        <sqlFile encoding="utf8"
+                 path="oracle/02_export_schema_changes.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback />
+    </changeSet>
+
+    <changeSet author="atilla" id="6.0.16-tag">
+        <tagDatabase tag="6.0.16"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentRefs>
+  <contentRef cmisPath="/a/b/c/d" objectId="0" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="1" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="2" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="3" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="4" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="5" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="6" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="7" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="8" repoId="1"/>
+  <contentRef cmisPath="/a/b/c/d" objectId="9" repoId="1"/>
+</contentRefs>

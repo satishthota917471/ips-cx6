@@ -1,0 +1,13 @@
+<assembly>
+  <id>provisioning-api</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>src/main/resources/db/sql</directory>
+      <outputDirectory>/provisioning</outputDirectory>
+    </fileSet>
+  </fileSets>
+</assembly>

@@ -1,0 +1,9 @@
+{
+    "status": "UP",
+    "database":
+    {
+        "status": "UP",
+        "database": "MySQL",
+        "hello": 1
+    }
+}

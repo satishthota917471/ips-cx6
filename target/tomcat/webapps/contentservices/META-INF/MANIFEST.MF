@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Implementation-Title: Content Services - Web Application
+DisableIBMJAXWSEngine: true
+Implementation-Version: b934
+Built-By: go
+Implementation-Vendor-Id: com.backbase.cxp.contentservices
+Created-By: Apache Maven 3.5.0
+Build-Jdk: 1.8.0_192
+Implementation-URL: https://stash.backbase.com/projects/CXP-CM/repos/c
+ ontent-services/browse
+Implementation-Vendor: Backbase B.V.
+

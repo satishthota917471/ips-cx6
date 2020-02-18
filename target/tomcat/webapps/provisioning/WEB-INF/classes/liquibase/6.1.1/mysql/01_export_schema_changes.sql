@@ -1,0 +1,1 @@
+ALTER TABLE export_package MODIFY portal_name VARCHAR(255) NULL;

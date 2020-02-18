@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:jaxb="http://www.springframework.org/schema/beans"
+  elementFormDefault="qualified" targetNamespace="http://www.backbase.com/content/model/1.0"
+  xmlns="http://www.backbase.com/content/model/1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+  jxb:version="2.0" version="1.0">
+
+  <xs:element name="repositories" type="cmisRepositoriesType" />
+  <xs:complexType name="cmisRepositoriesType">
+    <xs:sequence>
+      <xs:element type="cmisRepositoryType" name="repository"
+        maxOccurs="unbounded" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cmisRepositoryType">
+    <xs:sequence>
+      <xs:element name="repositoryId">
+      </xs:element>
+      <xs:element name="name">
+      </xs:element>
+      <xs:element name="description">
+      </xs:element>
+      <xs:element type="xs:string" name="vendorName" />
+      <xs:element name="productName">
+      </xs:element>
+      <xs:element type="xs:string" name="productVersion" />
+      <xs:element name="fileLocation">
+      </xs:element>
+      <xs:element type="xs:string" name="cmisVersionSupported" />
+      <xs:element type="xs:boolean" name="isPrivate" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

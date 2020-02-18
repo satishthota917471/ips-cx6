@@ -1,0 +1,13 @@
+#
+# Configuration file only for development
+#
+
+thumbnailservice:
+
+logging:
+  level:
+    com:
+      backbase:
+        cxp:
+          rendition: INFO
+          thumbnail: INFO

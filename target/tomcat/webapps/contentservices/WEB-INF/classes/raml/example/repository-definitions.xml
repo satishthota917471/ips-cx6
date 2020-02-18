@@ -1,0 +1,16 @@
+<repositories xmlns="http://www.backbase.com/content/model/1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.backbase.com/content/model/1.0 
+              bootstrap-repository-definitions.xsd">
+    <repository>
+        <repositoryId>%s</repositoryId>
+        <name>%s</name>
+        <description>Test repository is for test purposes only.</description>
+        <vendorName>Backbase</vendorName>
+        <productName>Backbase Test Repository</productName>
+        <productVersion>0.1</productVersion>
+        <fileLocation>${user.home}/.backbase/contentservices/fs/cs-content</fileLocation>
+        <cmisVersionSupported>1.0</cmisVersionSupported>
+        <isPrivate>false</isPrivate>
+    </repository>
+</repositories>

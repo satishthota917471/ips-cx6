@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet context="init_db" author="BACKBASE" id="init_db_h2_ddl" dbms="h2">
+        <sqlFile encoding="utf8"
+                 path="h2/schema.ddl"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback/>
+        <rollback>
+            <sqlFile encoding="utf8"
+                     path="h2/drop_schema.ddl"
+                     relativeToChangelogFile="true"
+                     stripComments="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="init_db" author="BACKBASE" id="init_db_mssql_ddl" dbms="mssql">
+        <sqlFile encoding="utf8"
+                 path="mssql/schema.ddl"
+                 relativeToChangelogFile="true"
+                 stripComments="true"
+                 endDelimiter="GO"/>
+        <rollback>
+            <sqlFile encoding="utf8"
+                     path="mssql/drop_schema.ddl"
+                     relativeToChangelogFile="true"
+                     stripComments="true"
+                     endDelimiter="GO"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="init_db" author="BACKBASE" id="init_db_mysql_ddl" dbms="mysql">
+        <sqlFile encoding="utf8"
+                 path="mysql/schema.ddl"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sqlFile encoding="utf8"
+                     path="mysql/drop_schema.ddl"
+                     relativeToChangelogFile="true"
+                     stripComments="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="init_db" author="BACKBASE" id="init_db_oracle_ddl" dbms="oracle">
+        <sqlFile encoding="utf8"
+                 path="oracle/schema.ddl"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sqlFile encoding="utf8"
+                     path="oracle/drop_schema.ddl"
+                     relativeToChangelogFile="true"
+                     stripComments="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="init_db" author="BACKBASE" id="init_db_tag">
+        <tagDatabase tag="6.0"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Content Api schema",
+  "description": "Payload schema to delete documents from a specific repository.",
+  "properties": {
+    "repositoryId": {
+      "type": "string",
+      "description": "Repository ID to delete documents from."
+    },
+    "ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Document ID to delete."
+      }
+    }
+  },
+  "required": ["repositoryId", "ids"],
+  "additionalProperties": false
+}
